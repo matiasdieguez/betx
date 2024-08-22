@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)file:///C:/Source/Personal/Betx/index.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BetX - Sistema de Apuestas Fibonacci</title>
     <style>
       body {
@@ -50,18 +50,39 @@
 
     <div class="result">
       <label for="balance" class="result"> Saldo: </label>
-      <input type="number" id="balance" class="result unit" value="0" min="0" step="100">
+      <input
+        type="number"
+        id="balance"
+        class="result unit"
+        value="0"
+        min="0"
+        step="100"
+      />
       <label for="bet-unit" class="result"> Valor de la unidad: </label>
-      <input type="number" id="bet-unit" class="result unit" value="100" min="100" step="100">
+      <input
+        type="number"
+        id="bet-unit"
+        class="result unit"
+        value="100"
+        min="100"
+        step="100"
+      />
       <label for="bet-quote" class="result"> Cuota: </label>
-      <input type="number" id="bet-quote" class="result unit" value="1.30" min="1" step="0.01">
+      <input
+        type="number"
+        id="bet-quote"
+        class="result unit"
+        value="1.30"
+        min="1"
+        step="0.01"
+      />
     </div>
 
     <div class="result"></div>
 
-    <div class="result" id="bet-number">Próxima apuesta es la N°: 12</div>
-    <div class="result" id="current-bet">Apostar: 34 unidades ($340)</div>
-    <div class="result" id="fibonacci-sequence">Secuencia de Fibonacci: [1, 1, 2, 3, 5, 8, 13, 21, 34]</div>
+    <div class="result" id="bet-number"></div>
+    <div class="result" id="current-bet"></div>
+    <div class="result" id="fibonacci-sequence"></div>
 
     <div>
       <button class="button bg-green" id="bet-win">Ganada</button>
@@ -70,7 +91,7 @@
     </div>
 
     <div class="history">
-      <ol id="history"><li class="history">8/22/2024, 5:16:38 PM $-10 🔴</li><li class="history">8/22/2024, 5:16:42 PM $-20 🔴</li><li class="history">8/22/2024, 5:17:42 PM $-30 🔴</li><li class="history">8/22/2024, 5:17:56 PM $-50 🔴</li><li class="history">8/22/2024, 5:18:55 PM $-80 🔴</li><li class="history">8/22/2024, 5:19:14 PM $-130 🔴</li><li class="history">8/22/2024, 5:19:43 PM $-210 🔴</li><li class="history">8/22/2024, 5:20:27 PM $-340 🔴</li><li class="history">8/22/2024, 5:21:20 PM $260 🟢</li><li class="history">8/22/2024, 5:22:32 PM $-210 🔴</li><li class="history">8/22/2024, 5:23:07 PM $-340 🔴</li></ol>
+      <ol id="history"></ol>
     </div>
 
     <script>
@@ -182,6 +203,5 @@
       // Inicializa la visualización
       updateDisplay();
     </script>
-  
-
-</body></html>
+  </body>
+</html>
