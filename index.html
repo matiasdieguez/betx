@@ -48,8 +48,8 @@
     <h1>BetX</h1>
     <h2>Sistema de Apuestas Fibonacci</h2>
 
-    <div class="result">
-      <label for="balance" class="result"> Saldo: </label>
+    <div>
+      <label for="balance" class="result unit"> Saldo: </label>
       <input
         type="number"
         id="balance"
@@ -58,7 +58,9 @@
         min="0"
         step="100"
       />
-      <label for="bet-unit" class="result"> Valor de la unidad: </label>
+    </div>
+    <div>
+      <label for="bet-unit" class="result unit"> Unidad: </label>
       <input
         type="number"
         id="bet-unit"
@@ -67,7 +69,9 @@
         min="100"
         step="100"
       />
-      <label for="bet-quote" class="result"> Cuota: </label>
+    </div>
+    <div>
+      <label for="bet-quote" class="result unit"> Cuota: </label>
       <input
         type="number"
         id="bet-quote"
@@ -82,13 +86,14 @@
 
     <div class="result" id="bet-number"></div>
     <div class="result" id="current-bet"></div>
-    <div class="result" id="fibonacci-sequence"></div>
 
     <div>
       <button class="button bg-green" id="bet-win">Ganada</button>
       <button class="button bg-red" id="bet-lose">Perdida</button>
       <button class="button bg-blue" id="reset-sequence">Reiniciar</button>
     </div>
+
+    <div class="result" id="fibonacci-sequence"></div>
 
     <div class="history">
       <ol id="history"></ol>
@@ -100,6 +105,20 @@
       var currentBet = fibonacciSequence[currentPosition];
       var betNumber = 0;
 
+      function getFormattedDate() {
+        const date = new Date();
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed in JavaScript
+        const year = date.getFullYear();
+
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      }
+
       function addHistory(bet, result) {
         var history = document.getElementById("history");
 
@@ -108,7 +127,7 @@
         var icon = "🟢";
         if (!result) icon = "🔴";
 
-        item.innerText = `${new Date().toLocaleString()} $${bet} ${icon}`;
+        item.innerText = `${getFormattedDate()} ${bet} ${icon}`;
 
         history.appendChild(item);
       }
@@ -122,9 +141,9 @@
       function updateDisplay() {
         betUnit = parseInt(document.getElementById("bet-unit").value) || 1;
 
-        document.getElementById(
-          "current-bet"
-        ).innerText = `Apostar: $${currentBet * betUnit} (${currentBet} unidades)`;
+        document.getElementById("current-bet").innerText = `Apostar: $${
+          currentBet * betUnit
+        } (${currentBet} unidades)`;
 
         document.getElementById(
           "fibonacci-sequence"
@@ -134,7 +153,7 @@
 
         document.getElementById(
           "bet-number"
-        ).innerText = `Próxima apuesta es la N°: ${betNumber + 1}`;
+        ).innerText = `Próxima apuesta N°: ${betNumber + 1}`;
       }
 
       // Acción cuando se gana la apuesta
@@ -149,13 +168,13 @@
         currentBet = fibonacciSequence[currentPosition];
         betUnit = parseInt(document.getElementById("bet-unit").value) || 1;
         var quote = parseFloat(document.getElementById("bet-quote").value);
-        var betResult = currentBet * betUnit * quote;
+        var betResult = currentBet * betUnit * (quote - 1);
 
         var balance = parseFloat(document.getElementById("balance").value);
         balance = balance + betResult;
         document.getElementById("balance").value = balance;
 
-        addHistory(betResult, true);
+        addHistory("+" + Math.round(betResult), true);
 
         updateDisplay();
       });
@@ -179,7 +198,7 @@
         balance = balance + betResult;
         document.getElementById("balance").value = balance;
 
-        addHistory(betResult, false);
+        addHistory(Math.round(betResult), false);
 
         updateDisplay();
       });
