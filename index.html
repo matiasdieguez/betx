@@ -36,6 +36,7 @@
       .unit {
         width: 100px;
         text-align: right;
+        font-family: "Courier New", Courier, monospace;
       }
       .history {
         max-width: 400px;
@@ -105,6 +106,10 @@
       var currentBet = fibonacciSequence[currentPosition];
       var betNumber = 0;
 
+      function round(num) {
+        return Math.round(num * 100) / 100;
+      }
+
       function getFormattedDate() {
         const date = new Date();
 
@@ -117,6 +122,31 @@
         const seconds = String(date.getSeconds()).padStart(2, "0");
 
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      }
+
+      function loadValues() {
+        var balance = parseFloat(localStorage.getItem("balance"));
+        if (isNaN(balance)) balance = 0;
+        document.getElementById("balance").value = round(balance);
+
+        var unit = parseFloat(localStorage.getItem("bet-unit"));
+        if (isNaN(unit)) unit = 0;
+        document.getElementById("bet-unit").value = round(unit);
+
+        var quote = parseFloat(localStorage.getItem("bet-quote"));
+        if (isNaN(quote)) quote = 0;
+        document.getElementById("bet-quote").value = round(quote);
+      }
+
+      function saveValues() {
+        var balance = parseFloat(document.getElementById("balance").value);
+        localStorage.setItem("balance", round(balance));
+
+        var unit = parseFloat(document.getElementById("bet-unit").value);
+        localStorage.setItem("bet-unit", round(unit));
+
+        var quote = parseFloat(document.getElementById("bet-quote").value);
+        localStorage.setItem("bet-quote", round(quote));
       }
 
       function addHistory(bet, result) {
@@ -154,6 +184,8 @@
         document.getElementById(
           "bet-number"
         ).innerText = `Próxima apuesta N°: ${betNumber + 1}`;
+
+        loadValues();
       }
 
       // Acción cuando se gana la apuesta
@@ -168,13 +200,15 @@
         currentBet = fibonacciSequence[currentPosition];
         betUnit = parseInt(document.getElementById("bet-unit").value) || 1;
         var quote = parseFloat(document.getElementById("bet-quote").value);
-        var betResult = currentBet * betUnit * (quote - 1);
+        var betResult = currentBet * betUnit * quote - (currentBet * betUnit);
 
         var balance = parseFloat(document.getElementById("balance").value);
         balance = balance + betResult;
-        document.getElementById("balance").value = balance;
+        document.getElementById("balance").value = round(balance);
 
-        addHistory("+" + Math.round(betResult), true);
+        addHistory("+" + round(betResult), true);
+
+        saveValues();
 
         updateDisplay();
       });
@@ -196,9 +230,11 @@
 
         var balance = parseFloat(document.getElementById("balance").value);
         balance = balance + betResult;
-        document.getElementById("balance").value = balance;
+        document.getElementById("balance").value = round(balance);
 
-        addHistory(Math.round(betResult), false);
+        addHistory(round(betResult), false);
+
+        saveValues();
 
         updateDisplay();
       });
